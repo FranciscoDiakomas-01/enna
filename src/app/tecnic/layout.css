@@ -1,0 +1,22 @@
+#admin {
+  display: flex;
+  justify-content: end;
+  min-height: 100dvh;
+  font-family: sans-serif;
+  font-size: 13px;
+  scroll-behavior: smooth;
+}
+#admin > section {
+  width: 85%;
+}
+#admin section main {
+  width: 100%;
+  min-height: 100dvh;
+  padding: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  #admin > section {
+    width: 100%;
+  }
+}

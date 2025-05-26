@@ -1,0 +1,9 @@
+#transparent {
+  bottom: 0;
+  right: 0;
+  background-color: transparent;
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
