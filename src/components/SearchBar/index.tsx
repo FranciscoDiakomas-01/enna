@@ -8,6 +8,8 @@ interface IProp {
   values?: Icategory[];
 }
 export default function SearchBar(prop: IProp) {
+
+  
   return (
     <form
       id="searchBar"

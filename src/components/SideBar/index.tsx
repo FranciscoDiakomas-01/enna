@@ -14,6 +14,16 @@ export default function SideBar({ links }: { links: ILink[] }) {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const [notificationRouter, setNotificationRouter] = useState(
+    "/admin/notification"
+  );
+  
+  useEffect(() => {
+    const location = window.location.href
+    if (location.includes("/tecnic")) {
+      setNotificationRouter("/tecnic/notification");
+    } 
+  },[])
 
   useEffect(() => {
     const menuBuguer = document.getElementById("menuBuguer");
@@ -59,7 +69,7 @@ export default function SideBar({ links }: { links: ILink[] }) {
               </Link>
             ))}
             <Notification
-              to="/admin/notification"
+              to={notificationRouter}
               click={() => {
                 const noti = document.getElementById("noti");
                 if (noti) {
@@ -130,7 +140,7 @@ export default function SideBar({ links }: { links: ILink[] }) {
             </Link>
           ))}
           <Notification
-            to="/admin/notification"
+            to={notificationRouter}
             click={() => {
               const noti = document.getElementById("noti");
               if (noti) {
