@@ -23,16 +23,35 @@ import { SyncLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 export default function Ticket() {
   const [load, setLoad] = useState(true);
-  const data: Pick<ITicket, "title" | "code" | "priority" | "id" | "status"> = {
+  const data: Pick<
+    ITicket,
+    "title" | "code" | "priority" | "id" | "status" | "description"
+  > = {
     code: "",
     id: 0,
     priority: "Higth",
     status: "Cancelled",
     title: "",
+    description: "",
   };
+  const [add, setAdd] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [active, setactive] = useState<
+    Pick<
+      ITicket,
+      "title" | "code" | "priority" | "id" | "status" | "description"
+    >
+  >({
+    code: "",
+    id: 0,
+    priority: "Higth",
+    status: "Cancelled",
+    title: "",
+    description: "",
+  });
   const [category, setCategory] = useState<Icategory[]>([]);
   const [Ticket, setTicket] = useState<(typeof data)[]>([]);
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
     setLoad(true);
     AOS.init({
@@ -53,7 +72,8 @@ export default function Ticket() {
       {
         id: 14,
         text: "Média",
-      },{
+      },
+      {
         id: 1,
         text: "Pendentes",
       },
@@ -73,6 +93,7 @@ export default function Ticket() {
         title: "Erro ao acessar o painel de controle",
         priority: "Higth",
         status: "Pedding",
+        description: "",
       },
       {
         id: 2,
@@ -80,6 +101,7 @@ export default function Ticket() {
         title: "Atualização de dados do cliente",
         priority: "Medium",
         status: "Conpleted",
+        description: "",
       },
       {
         id: 3,
@@ -87,6 +109,7 @@ export default function Ticket() {
         title: "Solicitação de nova funcionalidade",
         priority: "Low",
         status: "Cancelled",
+        description: "",
       },
       {
         id: 4,
@@ -94,6 +117,7 @@ export default function Ticket() {
         title: "Problemas com o login",
         priority: "Higth",
         status: "Pedding",
+        description: "",
       },
       {
         id: 5,
@@ -101,6 +125,7 @@ export default function Ticket() {
         title: "Erro no envio de e-mails automáticos",
         priority: "Medium",
         status: "Conpleted",
+        description: "",
       },
       {
         code: "TCK-006",
@@ -108,6 +133,7 @@ export default function Ticket() {
         priority: "Higth",
         status: "Conpleted",
         title: "Instalação do Primavera",
+        description: "",
       },
     ]);
     setTimeout(() => {
@@ -116,8 +142,136 @@ export default function Ticket() {
   }, []);
   return (
     <main className="flex pt-[10px] flex-col gap-4 mt-[50px] lg:mt-0">
+      {add && (
+        <article
+          data-aos="zoom-in"
+          id="transparent"
+          className="fixed z-[999999] h-full w-full lg:w-[85%] p-5 "
+        >
+          <form
+            action=""
+            className="border p-3 rounded-sm border-orange-400 w-[90%] lg:w-[40%] flex flex-col gap-3"
+          >
+            <h1 className="text-[20px] font-bold">Criar Solicitação</h1>
+            <label htmlFor="title">Título</label>
+            <input
+              type="text"
+              id="title"
+              placeholder="entre com o título da solicitação"
+              className="border p-2 rounded-sm outline-0  border-orange-400"
+            />{" "}
+            <label htmlFor="priority">Prioridade</label>
+            <select
+              name=""
+              id="priority"
+              className="border p-2 rounded-sm border-orange-400 outline-0"
+            >
+              <option value="0">Selecione a prioridade</option>
+              <option value="1">Alta</option>
+              <option value="2">Média</option>
+              <option value="3">Baixa</option>
+            </select>
+            <label htmlFor="area">Categoria</label>
+            <select
+              name=""
+              id="area"
+              className="border p-2 rounded-sm border-orange-400 outline-0"
+            >
+              <option value="0">Selecione uma área</option>
+              <option value="1">TI</option>
+              <option value="2">Desing</option>
+              <option value="3">Market</option>
+            </select>
+            <label htmlFor="date">Data final</label>
+            <input
+              type="date"
+              id="date"
+              placeholder="entre com o título da solicitação"
+              className="border p-2 rounded-sm outline-0  border-orange-400"
+            />{" "}
+            <label htmlFor="desc">Descrição</label>
+            <textarea
+              id="desc"
+              placeholder="entre com o título da solicitação"
+              className="border p-2 rounded-sm outline-0 resize-none  border-orange-400"
+            />
+            <footer className="flex lg:flex-row flex-col items-center justify-between gap-2">
+              <button className="bg-orange-400 text-white  border-orange-400 rounded-full p-[5px] w-full">
+                Cadastrar
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAdd(false);
+                }}
+                className="bg-red-500 text-white  border-orange-400 rounded-full p-[5px] w-full"
+              >
+                Cancelar
+              </button>
+            </footer>
+          </form>
+        </article>
+      )}
+      {edit && (
+        <article
+          data-aos="zoom-in"
+          id="transparent"
+          className="fixed z-[999999] h-full w-full lg:w-[85%] p-5 "
+        >
+          <form
+            action=""
+            className="border p-3 rounded-sm border-orange-400 w-[90%] lg:w-[40%] flex flex-col gap-3"
+          >
+            <h1 className="text-[20px] font-bold">Actualizar Solicitação</h1>
+            <label htmlFor="title">Título</label>
+            <input
+              type="text"
+              value={active.title}
+              onChange={(e) => {
+                setactive((prev) => ({ ...prev, title: e.target.value }));
+              }}
+              id="title"
+              placeholder="entre com o título da solicitação"
+              className="border p-2 rounded-sm outline-0  border-orange-400"
+            />{" "}
+            <label htmlFor="desc">Descrição</label>
+            <textarea
+              value={active.description}
+              onChange={(e) => {
+                setactive((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }));
+              }}
+              id="desc"
+              placeholder="entre com o título da solicitação"
+              className="border p-2 rounded-sm outline-0 resize-none  border-orange-400"
+            />
+            <footer className="flex lg:flex-row flex-col items-center justify-between gap-2">
+              <button className="bg-orange-400 text-white  border-orange-400 rounded-full p-[5px] w-full">
+                Actualizar
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setEdit(false);
+                }}
+                className="bg-red-500 text-white  border-orange-400 rounded-full p-[5px] w-full"
+              >
+                Cancelar
+              </button>
+            </footer>
+          </form>
+        </article>
+      )}
+
       <header className="w-full flex center items-center  justify-end gap-[5px] p-[10px] pt-[20px] lg:sticky lg:top-0 bg-white lg:z-10">
-        <button className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px] w-[120px]">
+        <button
+          className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px] w-[120px]"
+          onClick={() => {
+            setAdd(true);
+          }}
+        >
           <PlusCircle size={iconSize.iconSize} />
           Nova
         </button>
@@ -127,8 +281,27 @@ export default function Ticket() {
           <SearchBar onClick={() => {}} placeholder="Ticket da Solicitação" />
           <SelectchBar
             onClick={() => {}}
-            placeholder="Filtar por estado"
+            placeholder="Filtar por estado ou prioridade"
             values={category}
+          />
+
+          <SelectchBar
+            onClick={() => {}}
+            placeholder="Filtar por categoria"
+            values={[
+              {
+                id: 1,
+                text: "TI",
+              },
+              {
+                id: 1,
+                text: "Market",
+              },
+              {
+                id: 1,
+                text: "Pedreira",
+              },
+            ]}
           />
         </header>
         {load ? (
@@ -201,12 +374,21 @@ export default function Ticket() {
                       )}
                     </p>
                     <div className="grid grid-cols-3  w-full gap-2">
-                      <button className="flex gap-[5px] items-center justify-center p-[7px] border text-purple rounded-[5px] text-[13px] w-[30px]" onClick={()=>{
-                          router.push(`/admin/ticket/${data.id}`)
-                      }}>
+                      <button
+                        className="flex gap-[5px] items-center justify-center p-[7px] border text-purple rounded-[5px] text-[13px] w-[30px]"
+                        onClick={() => {
+                          router.push(`/admin/ticket/${data.id}`);
+                        }}
+                      >
                         <Eye size={iconSize.iconSize} />
                       </button>
-                      <button className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px] w-[30px]">
+                      <button
+                        className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px] w-[30px]"
+                        onClick={() => {
+                          setEdit(true);
+                          setactive(data);
+                        }}
+                      >
                         <Edit size={iconSize.iconSize} />
                       </button>
                       <button className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-red-400 rounded-[5px] text-[13px] w-[30px]">

@@ -192,6 +192,7 @@ export default function Tasks() {
       {add && (
         <article
           id="transparent"
+          data-aos="zoom-in"
           className="fixed z-[999] h-full w-full lg:w-[85%] p-5 "
         >
           <form

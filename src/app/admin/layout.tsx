@@ -32,12 +32,6 @@ export default function AdminLeyout({
       to: "/admin/task",
     },
     {
-      icon: <UserIcon size={iconSize.iconSize} />,
-      id: 4,
-      text: "Clientes",
-      to: "/admin/clients",
-    },
-    {
       icon: <Users size={iconSize.iconSize} />,
       id: 5,
       text: "Funcionários",

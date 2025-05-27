@@ -161,7 +161,7 @@ export default function Admin() {
                   <span className="flex items-center h-[45px] w-[45px] rounded-full bg-orange-400 text-white justify-center">
                     <Box size={17} />
                   </span>
-                  <p>Clientes</p>
+                  <p>Serviços</p>
                 </div>
                 <span>
                   <h1 className="text-3xl ">10</h1>

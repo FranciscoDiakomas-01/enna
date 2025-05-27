@@ -65,7 +65,7 @@ export default function Admin() {
     }, 3000);
   }, []);
   return (
-    <main className="flex flex-col gap-4 pb-3">
+    <main className="flex flex-col gap-4 pb-3 lg:mb-0 mb-5">
       {load ? (
         <div className="flex h-screen items-center justify-center">
           <SyncLoader size={7} color="orange" />
@@ -176,37 +176,45 @@ export default function Admin() {
               <BarAnimation />
             </div>
             {Array.isArray(tasks) && tasks.length > 0 && (
-              <article className="w-full flex flex-col gap-3 lg:w-[50%]">
-                <h1 data-aos="zoom-in" className="lg:text-2xl text-[17px]">
-                  Últimas Terefas
-                </h1>
+              <article
+                className="w-full flex flex-col gap-3 lg:w-[50%] "
+                data-aos="fade-left"
+              >
+                <h1 data-aos="zoom-in" className="text-[17px]">
+                  Últimos Registros
+                </h1>{" "}
                 {tasks.map((data, key) => (
                   <span
                     key={key}
                     className="flex  items-center gap-4 border p-2 rounded-sm transition hover:bg-orange-400 hover:text-white  hover:border-orange-500"
-                    data-aos="fade-right"
-                    data-aos-delay={String(Number(key * 100))}
                   >
-                    <div className="lg:flex hidden">
-                      <FolderEdit />
-                    </div>
                     <h1 className=" w-[270px]">
                       {data.title?.slice(0, 20)} ...
                     </h1>
                     <p className="w-[100px]"> {data.status}</p>
-                    <button className="w-[100px] text-[12px] h-[30px] rounded-full border ">
+                    <button
+                      className="w-[100px] text-[12px] h-[30px] rounded-full border "
+                      onClick={() => {
+                        router.push(`/tecnic/task/${data.id}`);
+                      }}
+                    >
                       <ArrowRight size={13} />
                     </button>
                   </span>
                 ))}
-                <button
-                  className="w-[150px] text-[12px] h-[30px] rounded-full  place-self-center mt-2 mb-7 bg-orange-400 text-white lg:mt-3"
-                  onClick={() => {
-                    router.push("/tecnic/task");
-                  }}
-                >
-                  Ver todas
-                </button>
+                <div className="flex  flex-col lg:flex-row justify-between gap-1 lg:items-center ">
+                  <button
+                    className="w-[150px] text-[12px] h-[30px] rounded-full  mt-2 mb-7 bg-orange-400 text-white "
+                    onClick={() => {
+                      router.push("/tecnic/task");
+                    }}
+                  >
+                    Ver todas
+                  </button>
+                  <h1 data-aos="zoom-in" className="text-[17px] opacity-0">
+                    Últimos Registros
+                  </h1>
+                </div>
               </article>
             )}
           </article>

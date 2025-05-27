@@ -1,5 +1,6 @@
 "use client";
-import IUser from "@/types/user"
+import IUser from "@/types/user";
+import "./index.css";
 import AOS from "aos";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useState } from "react";
@@ -10,6 +11,7 @@ import CardTech from "@/components/CardTech";
 export default function Tech() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loader, setLoader] = useState(true);
+  const [add, setAdd] = useState(false);
   useEffect(() => {
     setLoader(true);
     setTimeout(() => {
@@ -205,11 +207,83 @@ export default function Tech() {
 
   return (
     <main className="pt-[40px] flex flex-col gap-4">
+      {add && (
+        <article
+          data-aos="zoom-in"
+          id="transparent"
+          className="fixed z-[999999] h-full w-full lg:w-[85%] p-5 "
+        >
+          <form
+            action=""
+            className="border p-3 rounded-sm border-orange-400 w-[90%] lg:w-[40%] flex flex-col gap-3"
+          >
+            <h1 className="text-[20px] font-bold">Criar Funcionário</h1>
+            <label htmlFor="name">Nome</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="entre com o nome"
+              className="border p-2 rounded-sm outline-0  border-orange-400"
+            />
+            <label htmlFor="lastname">Sobrenome</label>
+            <input
+              type="text"
+              id="lastname"
+              placeholder="entre com o sobrenome"
+              className="border p-2 rounded-sm outline-0  border-orange-400"
+            />
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="exemplo@dominio.com"
+              className="border p-2 rounded-sm outline-0  border-orange-400"
+            />
+            <label htmlFor="Telefone">Telefone</label>
+            <input
+              type="tel"
+              id="Telefone"
+              placeholder="xxx xxx xxx"
+              className="border p-2 rounded-sm outline-0  border-orange-400"
+            />
+            <label htmlFor="area">Sector</label>
+            <select
+              name=""
+              id="area"
+              className="border p-2 rounded-sm border-orange-400 outline-0"
+            >
+              <option value="0">Selecione uma área</option>
+              <option value="1">TI</option>
+              <option value="2">Desing</option>
+              <option value="3">Market</option>
+            </select>
+            <footer className="flex lg:flex-row flex-col items-center justify-between gap-2">
+              <button className="bg-orange-400 text-white  border-orange-400 rounded-full p-[5px] w-full">
+                Cadastrar
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAdd(false);
+                }}
+                className="bg-red-500 text-white  border-orange-400 rounded-full p-[5px] w-full"
+              >
+                Cancelar
+              </button>
+            </footer>
+          </form>
+        </article>
+      )}
       <header className="w-full flex flex-col lg:flex-row center lg:items-center  justify-between gap-[10px] p-[10px] pt-[20px] lg:sticky top-0 bg-white z-10 mt-[45px] lg:mt-0">
         <div className="lg:w-[50%] w-full">
           <SearchBar placeholder="Buscar por funcionários" onClick={() => {}} />
         </div>
-        <button className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px]">
+        <button
+          className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px]"
+          onClick={() => {
+            setAdd(true);
+          }}
+        >
           <PlusCircle size={14} />
           Adicionar
         </button>

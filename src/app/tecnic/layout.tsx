@@ -4,6 +4,7 @@ import "./layout.css";
 import ILink from "@/types/link";
 import "aos/dist/aos.css";
 import {
+  Bell,
   FolderArchive,
   HomeIcon,
   Settings,
@@ -25,10 +26,11 @@ export default function AdminLeyout({
     },
     {
       icon: <FolderArchive size={iconSize.iconSize} />,
-      id: 2,
+      id: 2343,
       text: "Tarefas",
       to: "/tecnic/task",
     },
+   
     {
       icon: <Settings size={iconSize.iconSize} />,
       id: 6,
