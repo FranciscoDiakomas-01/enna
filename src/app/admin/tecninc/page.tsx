@@ -1,9 +1,6 @@
 "use client";
-
-import IUser from "@/types/user";
-import user from "../.././../assets/user.jpg";
+import IUser from "@/types/user"
 import AOS from "aos";
-
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useState } from "react";
 import SearchBar from "@/components/SearchBar";

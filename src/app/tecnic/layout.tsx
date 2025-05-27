@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+
 import "../globals.css";
 import "./layout.css";
 import ILink from "@/types/link";
@@ -6,18 +6,10 @@ import "aos/dist/aos.css";
 import {
   FolderArchive,
   HomeIcon,
-  WorkflowIcon,
-  UserIcon,
-  UserMinusIcon,
   Settings,
 } from "lucide-react";
 import SideBar from "@/components/SideBar";
 import iconSize from "@/constants/iconSize";
-
-export const metadata: Metadata = {
-  title: "Enna",
-  description: "Sistema de gestão de tarefas",
-};
 
 export default function AdminLeyout({
   children,

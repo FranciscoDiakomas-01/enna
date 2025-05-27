@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SyncLoader } from "react-spinners";
+import { useRouter } from "next/navigation";
 export default function Ticket() {
   const [load, setLoad] = useState(true);
   const data: Pick<ITicket, "title" | "code" | "priority" | "id" | "status"> = {
@@ -31,6 +32,7 @@ export default function Ticket() {
   };
   const [category, setCategory] = useState<Icategory[]>([]);
   const [Ticket, setTicket] = useState<(typeof data)[]>([]);
+  const router = useRouter()
   useEffect(() => {
     setLoad(true);
     AOS.init({
@@ -42,15 +44,26 @@ export default function Ticket() {
     setCategory([
       {
         id: 1,
-        text: "Hardware",
+        text: "Alta",
       },
       {
         id: 13,
-        text: "Software",
+        text: "Baixa",
       },
       {
         id: 14,
-        text: "Decoração",
+        text: "Média",
+      },{
+        id: 1,
+        text: "Pendentes",
+      },
+      {
+        id: 13,
+        text: "Completas",
+      },
+      {
+        id: 14,
+        text: "Canceladas",
       },
     ]);
     setTicket([
@@ -188,7 +201,9 @@ export default function Ticket() {
                       )}
                     </p>
                     <div className="grid grid-cols-3  w-full gap-2">
-                      <button className="flex gap-[5px] items-center justify-center p-[7px] border text-purple rounded-[5px] text-[13px] w-[30px]">
+                      <button className="flex gap-[5px] items-center justify-center p-[7px] border text-purple rounded-[5px] text-[13px] w-[30px]" onClick={()=>{
+                          router.push(`/admin/ticket/${data.id}`)
+                      }}>
                         <Eye size={iconSize.iconSize} />
                       </button>
                       <button className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px] w-[30px]">

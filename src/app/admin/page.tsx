@@ -88,7 +88,8 @@ export default function Admin() {
                 className=" lg:text-justify lg:w-[70%]"
               >
                 Seja bem-vindo(a) ao sistema. Seu painel está pronto para
-                gerenciar usuários, cursos, conteúdos e muito mais.
+                gerenciar usuários, cursos, conteúdos e muito mais. Gere os
+                relátorios do seu sistema clicando nod botões á baixo
               </h2>
               <footer
                 data-aos="fade-up"
@@ -97,12 +98,12 @@ export default function Admin() {
               >
                 <button className=" w-[140px] rounded-sm justify-center flex items-center h-[35px] p-1 text-[12px] gap-2 bg-white text-black">
                   <FileText size={13} />
-                  PDF
+                  Semanal
                 </button>
 
                 <button className=" w-[140px] h-[35px] rounded-sm justify-center flex items-center p-1 text-[12px] gap-2 border  ">
                   <FileSpreadsheet size={13} />
-                  Excel
+                  Mensal
                 </button>
               </footer>
             </span>
@@ -177,7 +178,10 @@ export default function Admin() {
               <BarAnimation />
             </div>
             {Array.isArray(tasks) && tasks.length > 0 && (
-              <article className="w-full flex flex-col gap-3 lg:w-[50%]">
+              <article
+                className="w-full flex flex-col gap-3 lg:w-[50%]"
+                data-aos="fade-left"
+              >
                 <div className="flex  flex-col lg:flex-row justify-between gap-1 lg:items-center ">
                   <button
                     className="w-[150px] text-[12px] h-[30px] rounded-full  mt-2 mb-7 bg-orange-400 text-white "
@@ -195,8 +199,6 @@ export default function Admin() {
                   <span
                     key={key}
                     className="flex  items-center gap-4 border p-2 rounded-sm transition hover:bg-orange-400 hover:text-white  hover:border-orange-500"
-                    data-aos="fade-right"
-                    data-aos-delay={String(Number(key * 100))}
                   >
                     <div className="lg:flex hidden">
                       <FolderEdit />
