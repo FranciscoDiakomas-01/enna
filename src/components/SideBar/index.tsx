@@ -10,7 +10,7 @@ import image from "../../assets/logo.png";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Notification from "../NotificationBanner/notification";
-export default function SideBar({ links }: { links: ILink[] }) {
+export default function SideBar({ links   , admin }: { links: ILink[] , admin : boolean }) {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -68,16 +68,18 @@ export default function SideBar({ links }: { links: ILink[] }) {
                 <p>{data.text}</p>
               </Link>
             ))}
-            <Notification
-              to={notificationRouter}
-              click={() => {
-                const noti = document.getElementById("noti");
-                if (noti) {
-                  setActive(444);
-                  noti.classList.add("active");
-                }
-              }}
-            />
+            {!admin && (
+              <Notification
+                to={notificationRouter}
+                click={() => {
+                  const noti = document.getElementById("noti");
+                  if (noti) {
+                    setActive(444);
+                    noti.classList.add("active");
+                  }
+                }}
+              />
+            )}
           </ul>
         </div>
 
@@ -139,16 +141,18 @@ export default function SideBar({ links }: { links: ILink[] }) {
               <p>{data.text}</p>
             </Link>
           ))}
-          <Notification
-            to={notificationRouter}
-            click={() => {
-              const noti = document.getElementById("noti");
-              if (noti) {
-                setActive(444);
-                noti.classList.add("active");
-              }
-            }}
-          />
+          {!admin && (
+            <Notification
+              to={notificationRouter}
+              click={() => {
+                const noti = document.getElementById("noti");
+                if (noti) {
+                  setActive(444);
+                  noti.classList.add("active");
+                }
+              }}
+            />
+          )}
           <button
             className="flex border text-orange-600 center items-center gap-2 p-2.5  w-full justify-center cursor-pointer transition rounded-sm hover:text-orange-950"
             onClick={() => {

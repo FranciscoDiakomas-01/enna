@@ -5,15 +5,19 @@ import AOS from "aos";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useState } from "react";
 import SearchBar from "@/components/SearchBar";
-import { PlusCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, PlusCircle } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import CardTech from "@/components/CardTech";
+import iconSize from "@/constants/iconSize";
 export default function Tech() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loader, setLoader] = useState(true);
   const [add, setAdd] = useState(false);
+  const [page, setPage] = useState(1);
+  const [lastpage, setLastPage] = useState(1);
   useEffect(() => {
     setLoader(true);
+    async function get() {}
     setTimeout(() => {
       setUsers([
         {
@@ -300,11 +304,28 @@ export default function Tech() {
       ) : (
         <>
           {Array.isArray(users) && users.length > 0 ? (
-            <section className="grid grid-cols-1 gap-[20px] pt-[10px] lg:grid-cols-3 md:grid-cols-2 lg:mb-0 mb-4 overflow-hidden ">
-              {users.map((data, index) => (
-                <CardTech tech={data} key={index} />
-              ))}
-            </section>
+            <>
+              {" "}
+              <section className="grid grid-cols-1 gap-[20px] pt-[10px] lg:grid-cols-3 md:grid-cols-2 lg:mb-0 mb-4 overflow-hidden ">
+                {users.map((data, index) => (
+                  <CardTech tech={data} key={index} />
+                ))}
+              </section>
+              <footer className="flex justify-between items-center border-t pt-2">
+                <p>
+                  {page} de {lastpage}
+                </p>
+                <span className="flex justify-between items-center gap-1">
+                  <button className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px] w-[30px]">
+                    <ArrowLeft size={iconSize.iconSize} />
+                  </button>
+                  <button className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px] w-[30px]">
+                    {" "}
+                    <ArrowRight size={iconSize.iconSize} />
+                  </button>
+                </span>
+              </footer>
+            </>
           ) : (
             <section className="min-h-[50dvh] flex flex-col gap-[30px] justify-center items-center">
               <p className="text-gray-500">Sem funcionários cadastrado</p>

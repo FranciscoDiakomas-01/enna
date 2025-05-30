@@ -5,7 +5,22 @@ import Box from "@mui/material/Box";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { HighlightScope } from "@mui/x-charts/context";
 
-export default function BarAnimation() {
+export default function BarAnimation({ value }: { value: number[] }) {
+  const highlightScope: HighlightScope = {
+    highlight: "series",
+    fade: "global",
+  };
+
+  const labels = ["Concluídas", "Pendentes", "Em progresso", "Canceladas"];
+  const colors = ["#04D361", "orange", "blue", "#E83F5B"];
+
+  const series = value.map((val, index) => ({
+    label: labels[index],
+    data: [val], 
+    color: colors[index],
+    highlightScope,
+  }));
+
   return (
     <Box sx={{ width: "100%" }}>
       <BarChart
@@ -13,41 +28,13 @@ export default function BarAnimation() {
         xAxis={[
           {
             scaleType: "band",
-            data: ["Distribuição de Tarefas"],
+            data: ["Distribuição de Tarefas"], // um único grupo
           },
         ]}
         height={300}
-        series={series.slice(0, 5).map((s) => ({ ...s, data: s.data }))}
+        series={series}
         skipAnimation={true}
       />
     </Box>
   );
 }
-
-const highlightScope: HighlightScope = {
-  highlight: "series",
-  fade: "global",
-};
-
-const series = [
-  {
-    label: "Concluídas",
-    data: [2423],
-    color: "#04D361",
-  },
-  {
-    label: "Pendentes",
-    data: [2362],
-    color: "orange",
-  },
-  {
-    label: "Em progresso",
-    data: [344],
-    color: "blue",
-  },
-  {
-    label: "Canceladas",
-    data: [1145],
-    color: "#E83F5B",
-  },
-].map((s) => ({ ...s, highlightScope }));

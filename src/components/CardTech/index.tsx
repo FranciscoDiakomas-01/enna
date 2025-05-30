@@ -14,7 +14,7 @@ export default function CardTech({ tech }: { tech: IUser }) {
       duration: 1000,
       easing: "ease",
       once: true,
-      offset: 200,
+      offset: 70,
     });
   }, []);
   return (
@@ -78,7 +78,7 @@ export default function CardTech({ tech }: { tech: IUser }) {
 
       <footer className="flex justify-between items-center gap-4">
         <button className="w-full bg-orange-400 text-white rounded-[3px]  h-[30px] flex items-center justify-center gap-[3px] text-[13px]">
-          <Rocket size={iconSize.iconSize} /> Editar
+          <Rocket size={iconSize.iconSize} /> Redifir
         </button>
         <button className="w-full bg-white border-[1px] border-dashed text-purple-700 rounded-[3px]  h-[30px] flex items-center justify-center gap-[3px] text-[13px]">
           <Trash size={iconSize.iconSize} /> Deletar

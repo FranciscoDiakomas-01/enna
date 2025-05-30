@@ -8,7 +8,6 @@ import {
   Box,
   FileSpreadsheet,
   FileText,
-  Folder,
   FolderEdit,
   Rocket,
   User,
@@ -18,6 +17,7 @@ import BarAnimation from "@/components/charts/bars";
 import { useEffect, useState } from "react";
 import { SyncLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
+import getMyDashBoard from "@/services/dashboard";
 export default function Admin() {
   interface ITask {
     id: number;
@@ -26,44 +26,29 @@ export default function Admin() {
   }
   const [load, setLoad] = useState(true);
   const [tasks, setTasks] = useState<ITask[]>([]);
+  const [chartValues, setChartValues] = useState<number[]>([]);
+  const [card, setCard] = useState<number[]>([]);
   const router = useRouter();
   useEffect(() => {
     setLoad(true);
+    async function getDash() {
+      const data = await getMyDashBoard();
+      setTasks(data?.recentTasks);
+      const { completed, pending, working, cancelled } = data?.taskStatusChart;
+      setChartValues([completed, pending, working, cancelled]);
+      console.log(data);
+      const { sectors, tasks, tickets, users } = data?.totals;
+      setCard([sectors.value, tasks.value, tickets.value, users.value]);
+      setTimeout(() => {
+        setLoad(false);
+      }, 3000);
+    }
+    getDash();
     AOS.init({
       once: true,
       offset: 70,
       duration: 1000,
     });
-    setTasks([
-      {
-        id: 1,
-        title: "Revisar proposta de projeto",
-        status: "Pendente",
-      },
-      {
-        id: 2,
-        title: "Desenvolver tela de login",
-        status: "Em andamento",
-      },
-      {
-        id: 3,
-        title: "Testar integração com API",
-        status: "Concluída",
-      },
-      {
-        id: 4,
-        title: "Corrigir bugs do dashboard",
-        status: "Cancelada",
-      },
-      {
-        id: 5,
-        title: "Atualizar documentação técnica",
-        status: "Em andamento",
-      },
-    ]);
-    setTimeout(() => {
-      setLoad(false);
-    }, 3000);
   }, []);
   return (
     <main className="flex flex-col gap-4 pb-3">
@@ -119,7 +104,7 @@ export default function Admin() {
                   <p>Solicitações</p>
                 </div>
                 <span>
-                  <h1 className="text-3xl ">10</h1>
+                  <h1 className="text-3xl ">{card[2]}</h1>
                 </span>
               </div>
               <div
@@ -134,7 +119,7 @@ export default function Admin() {
                   <p>Tarefas</p>
                 </div>
                 <span>
-                  <h1 className="text-3xl ">10</h1>
+                  <h1 className="text-3xl ">{card[1]}</h1>
                 </span>
               </div>
               <div
@@ -149,7 +134,7 @@ export default function Admin() {
                   <p>Usuários</p>
                 </div>
                 <span>
-                  <h1 className="text-3xl ">10</h1>
+                  <h1 className="text-3xl ">{card[3]}</h1>
                 </span>
               </div>
               <div
@@ -160,11 +145,14 @@ export default function Admin() {
                 <div className="flex items-center gap-2 flex-col">
                   <span className="flex items-center h-[45px] w-[45px] rounded-full bg-orange-400 text-white justify-center">
                     <Box size={17} />
+                    
                   </span>
-                  <p>Serviços</p>
+                  <p>Sectores</p>
                 </div>
                 <span>
-                  <h1 className="text-3xl ">10</h1>
+                    <h1 className="text-3xl ">
+                      {card[0]}
+                  </h1>
                 </span>
               </div>
             </span>
@@ -175,7 +163,7 @@ export default function Admin() {
             data-aos="zoom-in"
           >
             <div className="lg:w-[50%]  w-full">
-              <BarAnimation />
+              <BarAnimation value={chartValues} />
             </div>
             {Array.isArray(tasks) && tasks.length > 0 && (
               <article
@@ -206,7 +194,16 @@ export default function Admin() {
                     <h1 className=" w-[270px]">
                       {data.title?.slice(0, 20)} ...
                     </h1>
-                    <p className="w-[100px]"> {data.status}</p>
+                    <p className="w-[100px]">
+                      {" "}
+                      {String(data.status) == "Pending"
+                        ? "Pendente"
+                        : String(data.status) == "Cancelled"
+                        ? "Cancelado"
+                        : String(data.status) == "Completed"
+                        ? "Concluído"
+                        : "Andamento"}
+                    </p>
                     <button
                       className="w-[100px] text-[12px] h-[30px] rounded-full border "
                       onClick={() => {

@@ -53,7 +53,7 @@ export default function AdminLeyout({
   return (
     <main id="admin">
       <section>
-        <SideBar links={links} />
+        <SideBar links={links} admin={true} />
         {children}
       </section>
     </main>

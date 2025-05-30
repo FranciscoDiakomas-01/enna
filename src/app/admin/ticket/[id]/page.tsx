@@ -7,86 +7,46 @@ import { SyncLoader } from "react-spinners";
 import "aos/dist/aos.css";
 import AOS from "aos";
 import ITicket from "@/types/ticket";
-interface IUser {
+import { getAllTicktByID } from "@/services/tikect";
+
+interface ITec {
+  user: {
+    name: string;
+    lastname: string;
+    email: string;
+    id: number;
+  };
+  status: "Completed" | "Cancelled" | "Pending";
+  updated: string;
   id: number;
-  name: string;
-  lastname: string;
-  email: string;
-  description?: string;
 }
 export default function TicketDetail() {
   const { id } = useParams() as { id: string };
   const router = useRouter();
   const [task, setTask] = useState<ITicket>({
-    created_at: "jan 12 , 2024",
-    date_end: "jan 12 , 2024",
+    created: "jan 12 , 2024",
+    finished: "jan 12 , 2024",
     description: "",
     id: 0,
-    status: "Pedding",
-    updated_at: "jan 12 , 2024",
-    priority: "Higth",
-    client_id: 1,
+    status: "Pending",
+    updated: "jan 12 , 2024",
+    priority: "High",
     code: "TCK-024",
     files: [],
     title: "",
   });
-  const [Client, setClient] = useState<IUser>({
-    id: 0,
-    email: "",
-    lastname: "",
-    name: "",
-  });
-  const [tec, setTec] = useState<IUser[]>();
+  const [tec, setTec] = useState<ITec[]>();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(true);
-    setTec([
-      {
-        id: 1,
-        name: "Lucas",
-        lastname: "Silva",
-        email: "lucas.silva@empresa.com",
-        description: "Técnico de suporte especializado em redes e servidores.",
-      },
-      {
-        id: 2,
-        name: "Mariana",
-        lastname: "Costa",
-        email: "mariana.costa@empresa.com",
-        description:
-          "Analista responsável por sistemas e softwares corporativos.",
-      },
-      {
-        id: 3,
-        name: "João",
-        lastname: "Oliveira",
-        email: "joao.oliveira@empresa.com",
-        description: "Responsável por atendimento de primeiro nível (N1).",
-      },
-    ]);
+    async function getBydTask() {
+      const data = await getAllTicktByID(id);
+      setTask(data?.ticket);
+      setTec(data?.tasks);
+    }
+    getBydTask();
     setTimeout(() => {
       setLoading(false);
-      setClient({
-        id: 1,
-        name: "Ana",
-        lastname: "Souza",
-        email: "anasouza@gmal.com",
-      });
-      setTask({
-        id: 0,
-        status: "Conpleted",
-        description:
-          "Corrigir o bug que impede o envio de anexos no formulário de suporte.",
-        title:
-          "O erro só ocorre em dispositivos móveis. Testar no Chrome e Safari.",
-        files: [],
-        date_end: "set 20 2025",
-        created_at: "set 20 2025",
-        updated_at: "set 20 2025",
-        client_id: 1,
-        code: "TCK-0234",
-        priority: "Higth",
-      });
     }, 3000);
 
     AOS.init({
@@ -117,20 +77,44 @@ export default function TicketDetail() {
             <h1 className="lg:text-[18px] text-[15px]w-full">
               {task.description}
             </h1>
-            <h1>Começo : {task.created_at}</h1>
-            <h1> Término : {task.date_end}</h1>
+            <h1>
+              Começo :{" "}
+              {new Date(task.created).toLocaleDateString("en-US", {
+                month: "short",
+                day: "2-digit",
+                year: "numeric",
+              })}
+            </h1>
+            <h1>
+              {" "}
+              Término :{" "}
+              {new Date(task.finished).toLocaleDateString("en-US", {
+                month: "short",
+                day: "2-digit",
+                year: "numeric",
+              })}
+            </h1>
+            <h1>
+              {" "}
+              Prioridade :{" "}
+              {task.priority == "Low"
+                ? "Baixa"
+                : task.priority == "High"
+                ? "Alta"
+                : "Média"}
+            </h1>
             <h1
               style={{
                 color:
-                  task.status === "Pedding"
+                  task.status === "Pending"
                     ? "#ebc314"
-                    : task.status === "Conpleted"
+                    : task.status === "Completed"
                     ? "#28ca51"
                     : "#f81f1f",
                 backgroundColor:
-                  task.status === "Pedding"
+                  task.status === "Pending"
                     ? "#eeb90c41"
-                    : task.status === "Conpleted"
+                    : task.status === "Completed"
                     ? "#28ca5041"
                     : "#ca282841",
               }}
@@ -138,17 +122,14 @@ export default function TicketDetail() {
             >
               {task.status == "Cancelled"
                 ? "Canelado"
-                : task.status == "Conpleted"
+                : task.status == "Completed"
                 ? "Concluída"
                 : "Pendente"}
             </h1>
-            {task.code && <p>Ticket : {task.code}</p>}
+            {task.id && <p>Ticket : TCK-{task.id}</p>}
             <footer className="flex w-full lg:flex-row flex-col justify-between gap-3 items-center">
-              <button className="w-full rounded-sm p-2 bg-orange-400 text-white">
-                Editar
-              </button>
               <button
-                className=" w-full rounded-sm p-2 bg-blue-500 text-white"
+                className=" w-[50%] rounded-sm p-2 bg-blue-500 text-white"
                 onClick={() => {
                   router.back();
                 }}
@@ -162,22 +143,6 @@ export default function TicketDetail() {
             data-aos="fade-left"
           >
             <div className="flex flex-col gap-4">
-              {Client?.name && (
-                <div className="flex flex-col gap-2 pt-4">
-                  <h1 className="text-[18px] font-semibold">Cliente</h1>
-                  <span
-                    id={String(Client.id)}
-                    className="border p-3 flex flex-col gap-3 rounded-sm"
-                  >
-                    <div className="h-[40px] w-[40px] flex items-center justify-center rounded-full bg-orange-400 text-white font-bold">
-                      {Client.name?.charAt(0).toUpperCase()}
-                      {Client.lastname.charAt(0).toUpperCase()}
-                    </div>
-                    <h1>{Client.name + " " + Client.lastname}</h1>
-                    <p>{Client.email}</p>
-                  </span>
-                </div>
-              )}
               {Array.isArray(tec) && tec.length > 0 && (
                 <div className="flex flex-col gap-2 pt-4">
                   <h1 className="text-[18px] font-semibold">Técnicos</h1>
@@ -188,24 +153,23 @@ export default function TicketDetail() {
                       className="border p-3 flex flex-col gap-3 rounded-sm"
                     >
                       <div className="h-[40px] w-[40px] flex items-center justify-center rounded-full bg-orange-400 text-white font-bold">
-                        {data.name?.charAt(0).toUpperCase()}
-                        {data.lastname.charAt(0).toUpperCase()}
+                        {data?.user.name?.charAt(0).toUpperCase()}
+                        {data?.user.lastname.charAt(0).toUpperCase()}
                       </div>
-                      <h1>{data.name + " " + data.lastname}</h1>
-                      <p>{data.email}</p>
-                      <p>{data.description}</p>
+                      <h1>{data?.user.name + " " + data?.user.lastname}</h1>
+                      <p>{data?.user.email}</p>
                       <h1
                         style={{
                           color:
-                            task.status === "Pedding"
+                            task.status === "Pending"
                               ? "#ebc314"
-                              : task.status === "Conpleted"
+                              : task.status === "Completed"
                               ? "#28ca51"
                               : "#f81f1f",
                           backgroundColor:
-                            task.status === "Pedding"
+                            task.status === "Pending"
                               ? "#eeb90c41"
-                              : task.status === "Conpleted"
+                              : task.status === "Completed"
                               ? "#28ca5041"
                               : "#ca282841",
                         }}
@@ -213,7 +177,7 @@ export default function TicketDetail() {
                       >
                         {task.status == "Cancelled"
                           ? "Canelado"
-                          : task.status == "Conpleted"
+                          : task.status == "Completed"
                           ? "Concluída"
                           : "Pendente"}
                       </h1>
