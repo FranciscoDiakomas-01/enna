@@ -1,2 +1,2 @@
-const serverpath = "http://localhost:8080/enna/";
+const serverpath = "https://enna-backend.onrender.com/enna/";
 export default serverpath;
