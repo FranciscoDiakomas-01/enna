@@ -16,4 +16,5 @@ type IUser = {
   total?: number;
 };
 
+
 export default IUser;

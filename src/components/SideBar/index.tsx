@@ -10,20 +10,27 @@ import image from "../../assets/logo.png";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Notification from "../NotificationBanner/notification";
-export default function SideBar({ links   , admin }: { links: ILink[] , admin : boolean }) {
+import { Logout } from "@/services/logout";
+export default function SideBar({
+  links,
+  admin,
+}: {
+  links: ILink[];
+  admin: boolean;
+}) {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const [notificationRouter, setNotificationRouter] = useState(
     "/admin/notification"
   );
-  
+
   useEffect(() => {
-    const location = window.location.href
+    const location = window.location.href;
     if (location.includes("/tecnic")) {
       setNotificationRouter("/tecnic/notification");
-    } 
-  },[])
+    }
+  }, []);
 
   useEffect(() => {
     const menuBuguer = document.getElementById("menuBuguer");
@@ -86,6 +93,7 @@ export default function SideBar({ links   , admin }: { links: ILink[] , admin : 
         <button
           className="flex border text-orange-600 center items-center gap-2 p-2.5  w-[100%] justify-center cursor-pointer transition rounded-sm hover:text-orange-950"
           onClick={() => {
+            Logout();
             router.push("/");
           }}
         >
@@ -156,6 +164,7 @@ export default function SideBar({ links   , admin }: { links: ILink[] , admin : 
           <button
             className="flex border text-orange-600 center items-center gap-2 p-2.5  w-full justify-center cursor-pointer transition rounded-sm hover:text-orange-950"
             onClick={() => {
+              Logout();
               router.push("/");
             }}
           >

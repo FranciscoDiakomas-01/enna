@@ -1,14 +1,20 @@
 "use client";
 import iconSize from "@/constants/iconSize";
-import IUser from "@/types/user";
 import "./index.css";
 import { Check, Rocket, Trash, X } from "lucide-react";
 
 import AOS from "aos";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect } from "react";
+import IUserAPI from "@/types/userAPI";
 
-export default function CardTech({ tech }: { tech: IUser }) {
+export default function CardTech({
+  tech,
+  onDelete,
+}: {
+  tech: IUserAPI;
+  onDelete(): void;
+}) {
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -27,7 +33,8 @@ export default function CardTech({ tech }: { tech: IUser }) {
         id="relativeCard"
       >
         <p className="text-2xl font-bold">
-          {tech.name?.charAt(0).toUpperCase()}{""}
+          {tech.name?.charAt(0).toUpperCase()}
+          {""}
           {tech.lastname?.charAt(0).toUpperCase()}
         </p>
       </div>
@@ -36,20 +43,56 @@ export default function CardTech({ tech }: { tech: IUser }) {
           <h2 className="tex-[17px] font-bold">
             {tech.name} {tech.lastname}
           </h2>
-          <small>{tech.area}</small>
+          <small>{tech?.sector?.title}</small>
           <p>{tech.email}</p>
           <p>
             Rendimento de{" "}
-            {Math.floor((Number(tech.completed) / Number(tech.total)) * 100)}%{" "}
+            {Number(
+              Number(tech?.taskStats.cancelled) +
+                Number(tech?.taskStats.completed) +
+                Number(tech?.taskStats.pending)
+            ) > 0
+              ? Math.floor(
+                  (Number(tech?.taskStats?.completed) /
+                    Number(
+                      Number(tech?.taskStats.cancelled) +
+                        Number(tech?.taskStats.completed) +
+                        Number(tech?.taskStats.pending)
+                    )) *
+                    100
+                )
+              : 0}
+            %{" "}
           </p>
           <div className="h-[8px] rounded-[30px] bg-gray-100 w-full relative overflow-hidden">
             <span
               style={{
-                width: `${Math.floor(
-                  (Number(tech.completed) / Number(tech.total)) * 100
-                )}%`,
+                width: `${
+                  Number(
+                    Number(tech?.taskStats.cancelled) +
+                      Number(tech?.taskStats.completed) +
+                      Number(tech?.taskStats.pending)
+                  ) > 0
+                    ? Math.floor(
+                        (Number(tech?.taskStats?.completed) /
+                          Number(
+                            Number(tech?.taskStats.cancelled) +
+                              Number(tech?.taskStats.completed) +
+                              Number(tech?.taskStats.pending)
+                          )) *
+                          100
+                      )
+                    : 0
+                }%`,
                 backgroundColor:
-                  (Number(tech.completed) / Number(tech.total)) * 100 < 50
+                  (Number(tech?.taskStats?.completed) /
+                    Number(
+                      tech?.taskStats?.cancelled +
+                        tech?.taskStats?.completed +
+                        tech?.taskStats?.pending
+                    )) *
+                    100 <
+                  50
                     ? "#E83F5B"
                     : "",
               }}
@@ -63,24 +106,31 @@ export default function CardTech({ tech }: { tech: IUser }) {
           </div>
           <div className="flex gap-1 items-center">
             <Check color="#04D361" fill="#04D361" size={iconSize.iconSize} />{" "}
-            {tech.completed}
+            {tech?.taskStats?.completed}
           </div>
           <div className="flex gap-1 items-center">
             <Rocket color="gold" fill="gold" size={iconSize.iconSize} />{" "}
-            {tech.peending}
+            {tech?.taskStats?.pending}
           </div>{" "}
           <div className="flex gap-1 items-center">
             <X color="#E83F5B" fill="#E83F5B" size={iconSize.iconSize} />{" "}
-            {tech.canceled}
+            {tech?.taskStats?.cancelled}
           </div>
         </span>
       </figcaption>
-
+      <p>
+        {tech.bio}
+      </p>
       <footer className="flex justify-between items-center gap-4">
         <button className="w-full bg-orange-400 text-white rounded-[3px]  h-[30px] flex items-center justify-center gap-[3px] text-[13px]">
           <Rocket size={iconSize.iconSize} /> Redifir
         </button>
-        <button className="w-full bg-white border-[1px] border-dashed text-purple-700 rounded-[3px]  h-[30px] flex items-center justify-center gap-[3px] text-[13px]">
+        <button
+          className="w-full bg-white border-[1px] border-dashed text-purple-700 rounded-[3px]  h-[30px] flex items-center justify-center gap-[3px] text-[13px]"
+          onClick={async () => {
+            await onDelete();
+          }}
+        >
           <Trash size={iconSize.iconSize} /> Deletar
         </button>
       </footer>

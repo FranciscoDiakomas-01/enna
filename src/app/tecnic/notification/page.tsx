@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { SyncLoader } from "react-spinners";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import RedirectToLogin from "@/services/redirect";
 export default function Notification() {
   const [noti, setNoti] = useState<INotification[]>([]);
   const [loading, setLoading] = useState(true);

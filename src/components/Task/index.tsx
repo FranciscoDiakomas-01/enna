@@ -27,6 +27,7 @@ export default function TaskCard({ task  , admin }: { task: ITask , admin : bool
         <File size={iconSize.iconSize} />
       </div>
       <div>
+        <h1>{task.title}</h1> <br />
         <h1>{task.description?.slice(0, 100)}...</h1> <br />
       </div>
       <footer className="flex items-center justify-between">
@@ -34,43 +35,46 @@ export default function TaskCard({ task  , admin }: { task: ITask , admin : bool
           className="flex items-center justify-center rounded-full px-2 py-1 text-[12px]"
           style={{
             color:
-              task.status === "Pendente"
+              task.status === "Pending"
                 ? "#ebc314"
-                : task.status === "Em andamento"
+                : task.status === "Working"
                 ? "#2789da"
-                : task.status === "Concluída"
+                : task.status === "Completed"
                 ? "#28ca51"
                 : "#f81f1f",
             backgroundColor:
-              task.status === "Pendente"
+              task.status === "Pending"
                 ? "#eeb90c41"
-                : task.status === "Em andamento"
+                : task.status === "Working"
                 ? "#0c66ee41"
-                : task.status === "Concluída"
+                : task.status === "Completed"
                 ? "#28ca5041"
                 : "#ca282841",
           }}
         >
-          {task.status === "Pendente" && (
+          {task.status === "Pending" && (
             <span className="pendente">Pendente</span>
           )}
-          {task.status === "Em andamento" && (
+          {task.status === "Working" && (
             <span className="andamento">Andamento</span>
           )}
-          {task.status === "Concluída" && (
+          {task.status === "Completed" && (
             <span className="concluida">Concluída</span>
           )}
-          {task.status === "Cancelada" && (
+          {task.status === "Cancelled" && (
             <span className="cancelada">Cancelada</span>
           )}
         </span>
-        <button className="flex gap-[5px] items-center justify-center p-[7px] border text-purple-600 rounded-[5px] text-[13px] w-[80px]" onClick={() => {
-          if (admin) {
-              router.push(`/admin/task/${task.id}`)
-          } else {
-            router.push(`/tenic/task/${task.id}`);
-          }
-        }}>
+        <button
+          className="flex gap-[5px] items-center justify-center p-[7px] border text-purple-600 rounded-[5px] text-[13px] w-[80px]"
+          onClick={() => {
+            if (admin) {
+              router.push(`/admin/task/${task.id}`);
+            } else {
+              router.push(`/tenic/task/${task.id}`);
+            }
+          }}
+        >
           Detalhes
         </button>
       </footer>

@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { SyncLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 import getMyDashBoard from "@/services/dashboard";
+import RedirectToLogin from "@/services/redirect";
 export default function Admin() {
   interface ITask {
     id: number;
@@ -145,14 +146,11 @@ export default function Admin() {
                 <div className="flex items-center gap-2 flex-col">
                   <span className="flex items-center h-[45px] w-[45px] rounded-full bg-orange-400 text-white justify-center">
                     <Box size={17} />
-                    
                   </span>
                   <p>Sectores</p>
                 </div>
                 <span>
-                    <h1 className="text-3xl ">
-                      {card[0]}
-                  </h1>
+                  <h1 className="text-3xl ">{card[0]}</h1>
                 </span>
               </div>
             </span>

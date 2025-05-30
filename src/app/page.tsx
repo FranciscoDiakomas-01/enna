@@ -1,13 +1,10 @@
 "use client";
 import "./globals.css";
 import Logo from "@/components/Logo";
-import UseAuth from "@/hooks/useAuth";
 import Login from "@/services/login";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ClipLoader, SyncLoader } from "react-spinners";
 export default function Home() {
-  UseAuth();
   const [error, setError] = useState("");
   const [sucess, setSucess] = useState("");
   const [loader, setLoader] = useState(true);

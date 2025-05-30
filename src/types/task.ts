@@ -1,14 +1,10 @@
 type ITask = {
   id: number;
-  ticket_id: number | String;
-  tech_id: number;
+  ticketId?: number;
+  status: "Cancelled" | "Working" | "Completed" | "Pending";
+  title: string;
   description: string;
-  date_start: string;
-  date_end: string;
-  time_spent: number;
-  status: "Pendente" | "Em andamento" | "Concluída" | "Cancelada";
-  notes: string;
-  attachments: string[];
-  created_at: string;
-  updated_at: string;
+  created?: Date;
+  updated?: Date;
+  finished?: Date;
 };

@@ -35,6 +35,7 @@ import "react-toastify/ReactToastify.css";
 
 import { toast, ToastContainer } from "react-toastify";
 import getAllSectors from "@/services/sector";
+import RedirectToLogin from "@/services/redirect";
 export default function Ticket() {
   const [load, setLoad] = useState(true);
   const data: Pick<
@@ -112,7 +113,7 @@ export default function Ticket() {
           setLoad(false);
         }, 4000);
       }
-      getTaskByStatus(page, PriotityFulter);
+      getTaskByStatus(page, StatusFulter);
     }
   }, [StatusFulter, page]);
 
@@ -247,9 +248,11 @@ export default function Ticket() {
       }, 3000);
       setTimeout(() => setAddSUcess(""), 6000);
     } else {
-      setAdErro("Erro ao actualizar o ticket");
-      setAddLoading(false);
-      setTimeout(() => setAdErro(""), 3000);
+      setTimeout(() => {
+        setAdErro("Erro ao actualizar o Ticket");
+        setAddLoading(false);
+      }, 3000);
+      setTimeout(() => setAdErro(""), 6000);
     }
   }
   return (
@@ -646,11 +649,31 @@ export default function Ticket() {
               {page} de {lastpage}
             </p>
             <span className="flex justify-between items-center gap-1">
-              <button className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px] w-[30px]">
+              <button
+                onClick={() => {
+                  if (page > 1) setPage(page - 1);
+                }}
+                disabled={page === 1}
+                className={`flex gap-[5px] items-center justify-center p-[7px] text-white rounded-[5px] text-[13px] w-[30px] ${
+                  page === 1
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-orange-400"
+                }`}
+              >
                 <ArrowLeft size={iconSize.iconSize} />
               </button>
-              <button className="flex gap-[5px] items-center justify-center p-[7px] text-white bg-orange-400 rounded-[5px] text-[13px] w-[30px]">
-                {" "}
+
+              <button
+                onClick={() => {
+                  if (page < lastpage) setPage(page + 1);
+                }}
+                disabled={page === lastpage}
+                className={`flex gap-[5px] items-center justify-center p-[7px] text-white rounded-[5px] text-[13px] w-[30px] ${
+                  page === lastpage
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-orange-400"
+                }`}
+              >
                 <ArrowRight size={iconSize.iconSize} />
               </button>
             </span>

@@ -6,6 +6,7 @@ import "./index.css";
 import IUser from "@/types/user";
 import { Save } from "lucide-react";
 import { useEffect, useState } from "react";
+import RedirectToLogin from "@/services/redirect";
 export default function Account() {
   const [active, setActive] = useState("Meus Dados");
   const [user, setUser] = useState<IUser>({
@@ -181,8 +182,7 @@ export default function Account() {
             <h1 className="text-2xl font-bold text-center">Pontuação</h1>
 
             <h1 className="text-4xl font-bold">
-              {Math.floor((Number(user.completed) / Number(user.total)) * 100)}
-              %
+              {Math.floor((Number(user.completed) / Number(user.total)) * 100)}%
             </h1>
             <div className="h-[15px] w-[80%] bg-gray-100 rounded-sm relative overflow-hidden">
               <span

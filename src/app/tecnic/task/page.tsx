@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { SyncLoader } from "react-spinners";
 import TaskCard from "@/components/Task";
 import { ArrowLeft, ArrowRight, PlusCircle } from "lucide-react";
+import RedirectToLogin from "@/services/redirect";
 export default function Tasks() {
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [loading, setLoading] = useState(true);

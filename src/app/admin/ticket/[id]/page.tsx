@@ -8,6 +8,7 @@ import "aos/dist/aos.css";
 import AOS from "aos";
 import ITicket from "@/types/ticket";
 import { getAllTicktByID } from "@/services/tikect";
+import RedirectToLogin from "@/services/redirect";
 
 interface ITec {
   user: {
@@ -42,6 +43,7 @@ export default function TicketDetail() {
     async function getBydTask() {
       const data = await getAllTicktByID(id);
       setTask(data?.ticket);
+      console.log(data);
       setTec(data?.tasks);
     }
     getBydTask();
@@ -145,19 +147,32 @@ export default function TicketDetail() {
             <div className="flex flex-col gap-4">
               {Array.isArray(tec) && tec.length > 0 && (
                 <div className="flex flex-col gap-2 pt-4">
-                  <h1 className="text-[18px] font-semibold">Técnicos</h1>
+                  <h1 className="text-[18px] font-semibold">
+                    Técnicos {">"} Tarefas
+                  </h1>
                   {tec.map((data, index) => (
                     <span
-                      id={String(data.id)}
+                      id={String(data?.id)}
                       key={index}
                       className="border p-3 flex flex-col gap-3 rounded-sm"
                     >
-                      <div className="h-[40px] w-[40px] flex items-center justify-center rounded-full bg-orange-400 text-white font-bold">
-                        {data?.user.name?.charAt(0).toUpperCase()}
-                        {data?.user.lastname.charAt(0).toUpperCase()}
-                      </div>
-                      <h1>{data?.user.name + " " + data?.user.lastname}</h1>
-                      <p>{data?.user.email}</p>
+                      {data?.user && (
+                        <>
+                          <div className="h-[40px] w-[40px] flex items-center justify-center rounded-full bg-orange-400 text-white font-bold">
+                            {data?.user?.name?.charAt(0).toUpperCase()}
+                            {data?.user?.lastname.charAt(0).toUpperCase()}
+                          </div>
+                          <h1>
+                            {data?.user?.name + " " + data?.user?.lastname}
+                          </h1>
+
+                          <p>{data?.user?.email}</p>
+                        </>
+                      )}
+
+                      <p className="text-red-400">
+                        {!data?.user && "Sem funcionário associado"}
+                      </p>
                       <h1
                         style={{
                           color:

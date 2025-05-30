@@ -22,6 +22,7 @@ import getAllSectors, {
   updateSector,
 } from "@/services/sector";
 import { ClipLoader } from "react-spinners";
+import RedirectToLogin from "@/services/redirect";
 export default function Category() {
   const [load, setLoad] = useState(true);
   const [category, setCategory] = useState<ISector[]>([]);
@@ -82,11 +83,11 @@ export default function Category() {
     if (created) {
       setTimeout(() => {
         setAddLoading(false);
-        setAddSUcess("Ticket craido com sucesso");
+        setAddSUcess("Sector craido com sucesso");
       }, 3000);
       setTimeout(() => setAddSUcess(""), 6000);
     } else {
-      setAdErro("Erro ao criar o ticket");
+      setAdErro("Erro ao criar o Sector");
       setAddLoading(false);
       setTimeout(() => setAdErro(""), 3000);
     }
@@ -112,11 +113,11 @@ export default function Category() {
     if (created) {
       setTimeout(() => {
         setAddLoading(false);
-        setAddSUcess("Ticket actualizado com sucesso");
+        setAddSUcess("Sector actualizado com sucesso");
       }, 3000);
       setTimeout(() => setAddSUcess(""), 6000);
     } else {
-      setAdErro("Erro ao actualizar o ticket");
+      setAdErro("Erro ao actualizar o Sector");
       setAddLoading(false);
       setTimeout(() => setAdErro(""), 3000);
     }
@@ -134,7 +135,7 @@ export default function Category() {
             onSubmit={create}
             className="border p-3 rounded-sm border-orange-400 w-[90%] lg:w-[40%] flex flex-col gap-2"
           >
-            <h1 className="text-[20px] font-bold">Criar Categoria</h1>
+            <h1 className="text-[20px] font-bold">Criar Sector</h1>
             <label htmlFor="title">Título</label>
             <input
               type="text"
@@ -188,7 +189,7 @@ export default function Category() {
             onSubmit={update}
             className="border p-3 rounded-sm border-orange-400 w-[90%] lg:w-[40%] flex flex-col gap-3"
           >
-            <h1 className="text-[20px] font-bold">Actualizar Solicitação</h1>
+            <h1 className="text-[20px] font-bold">Actualizar Sector</h1>
             <label htmlFor="title">Título</label>
             <input
               type="text"
@@ -214,7 +215,10 @@ export default function Category() {
               className="border p-2 rounded-sm outline-0 resize-none  border-orange-400"
             />
             <footer className="flex lg:flex-row flex-col items-center justify-between gap-2">
-              <button className="bg-orange-400 text-white  border-orange-400 rounded-full p-[5px] w-full" type="submit">
+              <button
+                className="bg-orange-400 text-white  border-orange-400 rounded-full p-[5px] w-full"
+                type="submit"
+              >
                 Actualizar
               </button>
               <button
