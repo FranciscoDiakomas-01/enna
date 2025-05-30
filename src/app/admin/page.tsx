@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { SyncLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 import getMyDashBoard from "@/services/dashboard";
+import getResume from "@/services/resume";
 export default function Admin() {
   interface ITask {
     id: number;
@@ -80,14 +81,14 @@ export default function Admin() {
                 data-aos-delay="500"
                 className="flex gap-4 items-center mt-5"
               >
-                <button className=" w-[140px] rounded-sm justify-center flex items-center h-[35px] p-1 text-[12px] gap-2 bg-white text-black">
+                <button
+                  className=" w-[160px] rounded-sm justify-center flex items-center h-[35px] p-1 text-[12px] gap-2 bg-white text-black"
+                  onClick={async () => {
+                    await getResume();
+                  }}
+                >
                   <FileText size={13} />
-                  Semanal
-                </button>
-
-                <button className=" w-[140px] h-[35px] rounded-sm justify-center flex items-center p-1 text-[12px] gap-2 border  ">
-                  <FileSpreadsheet size={13} />
-                  Mensal
+                  Relatório
                 </button>
               </footer>
             </span>

@@ -71,7 +71,7 @@ export default function TaskCard({ task  , admin }: { task: ITask , admin : bool
             if (admin) {
               router.push(`/admin/task/${task.id}`);
             } else {
-              router.push(`/tenic/task/${task.id}`);
+              router.push(`/tecnic/task/${task.id}`);
             }
           }}
         >

@@ -6,7 +6,7 @@ import { ClipLoader, SyncLoader } from "react-spinners";
 
 import "aos/dist/aos.css";
 import AOS from "aos";
-import { deleteTaskById, getTaskById } from "@/services/task";
+import { deleteTaskById, getTaskById, updateTaskStatus } from "@/services/task";
 interface ITenics {
   id: number;
   name: string;
@@ -124,6 +124,40 @@ export default function TaskDetail() {
             </h1>
             {task?.ticketId && <p>Ticket : TCK-{task?.ticketId}</p>}
             <footer className="flex w-full lg:flex-row flex-col justify-between gap-3 items-center">
+              <select
+                className=" w-full rounded-sm border p-1 h-[35px]"
+                name=""
+                id=""
+                onChange={(e) => {
+                  setTimeout(async () => {
+                    if (e.target.value.length == 0) {
+                      return;
+                    }
+                    await updateTaskStatus(
+                      task?.id,
+                      e.target.value as
+                        | "Cancelled"
+                        | "Working"
+                        | "Completed"
+                        | "Pending"
+                    );
+                    setTask((prev) => ({
+                      ...prev,
+                      status: e.target.value as
+                        | "Cancelled"
+                        | "Working"
+                        | "Completed"
+                        | "Pending",
+                    }));
+                  }, 1000);
+                }}
+              >
+                <option value="">Alterar Estado</option>
+                <option value="Completed">Concluído</option>
+                <option value="Pending">Pendente</option>
+                <option value="Working">Progresso</option>
+                <option value="Cancelled">Cancelado</option>
+              </select>
               <button
                 className=" w-full rounded-sm p-2 bg-red-500 text-white"
                 onClick={async () => {
@@ -148,7 +182,7 @@ export default function TaskDetail() {
                   }
                 }}
               >
-                Actualizar status
+                Remover
               </button>
               <button
                 className=" w-full rounded-sm p-2 bg-blue-500 text-white"

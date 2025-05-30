@@ -7,8 +7,6 @@ import {
   ArrowRight,
   Box,
   Check,
-  FileSpreadsheet,
-  FileText,
   FolderEdit,
   X,
 } from "lucide-react";
@@ -82,21 +80,6 @@ export default function Admin() {
                 Seja bem-vindo(a) ao sistema. Seu painel está pronto para
                 gerenciar tarefas, seu perfil e muito mais.
               </h2>
-              <footer
-                data-aos="fade-up"
-                data-aos-delay="500"
-                className="flex gap-4 items-center mt-5"
-              >
-                <button className=" w-[140px] rounded-sm justify-center flex items-center h-[35px] p-1 text-[12px] gap-2 bg-white text-orange-700 ">
-                  <FileText size={13} />
-                  PDF
-                </button>
-
-                <button className=" w-[140px] h-[35px] rounded-sm justify-center flex items-center p-1 text-[12px] gap-2 border  ">
-                  <FileSpreadsheet size={13} />
-                  Excel
-                </button>
-              </footer>
             </span>
             <span className="grid grid-cols-1 gap-4  lg:grid-cols-2 lg:w-[50%] lg:gap-3 ">
               <div

@@ -23,16 +23,19 @@ export async function getAllTask(page: string = "1") {
     };
   }
 }
-export async function getAllTaskByStatus(page: string = "1"  ,  status : string) {
+export async function getAllTaskByStatus(page: string = "1", status: string) {
   const token = String(localStorage.getItem("token"));
   try {
-    const response = await fetch(serverpath + `task/allbystatus/${status}?page=${+page}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      serverpath + `task/allbystatus/${status}?page=${+page}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await response.json();
     return data;
   } catch (err) {
@@ -44,7 +47,7 @@ export async function getAllTaskByStatus(page: string = "1"  ,  status : string)
     };
   }
 }
-export async function getAllTaskBySearch(page: string = "1" , search : string) {
+export async function getAllTaskBySearch(page: string = "1", search: string) {
   const token = String(localStorage.getItem("token"));
   try {
     const response = await fetch(
@@ -69,20 +72,21 @@ export async function getAllTaskBySearch(page: string = "1" , search : string) {
   }
 }
 
-
-
 // Tec
 export async function getAllTaskByUserId(page: string = "1") {
   const token = String(localStorage.getItem("token"));
   const userid = String(localStorage.getItem("userid"));
   try {
-    const response = await fetch(serverpath + `task/user/${userid}?page=${+page}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      serverpath + `task/user/${userid}?page=${+page}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await response.json();
     return data;
   } catch (err) {
@@ -94,8 +98,10 @@ export async function getAllTaskByUserId(page: string = "1") {
     };
   }
 }
-export async function getAllTaskByUserStatus(page: string = "1", status: string) {
-  
+export async function getAllTaskByUserStatus(
+  page: string = "1",
+  status: string
+) {
   const userid = String(localStorage.getItem("userid"));
   const token = String(localStorage.getItem("token"));
   try {
@@ -121,7 +127,10 @@ export async function getAllTaskByUserStatus(page: string = "1", status: string)
   }
 }
 
-export async function getAllTaskByUserIdSearch(page: string = "1", search: string) {
+export async function getAllTaskByUserIdSearch(
+  page: string = "1",
+  search: string
+) {
   const token = String(localStorage.getItem("token"));
   const userid = String(localStorage.getItem("userid"));
   try {
@@ -147,22 +156,7 @@ export async function getAllTaskByUserIdSearch(page: string = "1", search: strin
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export async function getTaskById(id : number) {
+export async function getTaskById(id: number) {
   const token = String(localStorage.getItem("token"));
   try {
     const response = await fetch(serverpath + `task/${id}`, {
@@ -193,7 +187,7 @@ export async function deleteTaskById(id: number) {
     const data = await response.json();
     return data?.message == "tarefa eliminada com sucesso";
   } catch (err) {
-    return false
+    return false;
   }
 }
 export async function createTaskSave(dto: {
@@ -214,6 +208,27 @@ export async function createTaskSave(dto: {
     });
     const data = await response.json();
     return data?.message == "tarefa craida com sucesso" ? true : false;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function updateTaskStatus(
+  id: number | string,
+  status: "Cancelled" | "Working" | "Completed" | "Pending"
+) {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await fetch(`${serverpath}task/status`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status, id }),
+    });
+    const data = await response.json();
+    return data?.id ? true : false;
   } catch (error) {
     return false;
   }
