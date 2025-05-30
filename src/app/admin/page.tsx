@@ -18,7 +18,6 @@ import { useEffect, useState } from "react";
 import { SyncLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 import getMyDashBoard from "@/services/dashboard";
-import RedirectToLogin from "@/services/redirect";
 export default function Admin() {
   interface ITask {
     id: number;
@@ -37,7 +36,6 @@ export default function Admin() {
       setTasks(data?.recentTasks);
       const { completed, pending, working, cancelled } = data?.taskStatusChart;
       setChartValues([completed, pending, working, cancelled]);
-      console.log(data);
       const { sectors, tasks, tickets, users } = data?.totals;
       setCard([sectors.value, tasks.value, tickets.value, users.value]);
       setTimeout(() => {

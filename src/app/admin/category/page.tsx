@@ -22,7 +22,6 @@ import getAllSectors, {
   updateSector,
 } from "@/services/sector";
 import { ClipLoader } from "react-spinners";
-import RedirectToLogin from "@/services/redirect";
 export default function Category() {
   const [load, setLoad] = useState(true);
   const [category, setCategory] = useState<ISector[]>([]);
@@ -46,8 +45,6 @@ export default function Category() {
     async function get() {
       const secotrs = await getAllSectors();
       setCategory(secotrs?.data);
-      console.log(secotrs);
-
       setTimeout(() => {
         setLoad(false);
       }, 3000);

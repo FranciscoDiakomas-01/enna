@@ -35,7 +35,6 @@ import "react-toastify/ReactToastify.css";
 
 import { toast, ToastContainer } from "react-toastify";
 import getAllSectors from "@/services/sector";
-import RedirectToLogin from "@/services/redirect";
 export default function Ticket() {
   const [load, setLoad] = useState(true);
   const data: Pick<
@@ -141,7 +140,6 @@ export default function Ticket() {
     setLoad(true);
     async function getAllTikckets() {
       const data = await getALLTicket(page);
-      console.log(data);
       setTicket(data?.data);
       setLastPage(data?.lastPage);
       setTimeout(() => {

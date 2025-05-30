@@ -10,7 +10,6 @@ import {
 } from "@/services/users";
 import { ClipLoader } from "react-spinners";
 import { Save } from "lucide-react";
-import RedirectToLogin from "@/services/redirect";
 export default function Account() {
   const [active, setActive] = useState("Meus Dados");
   const [addError, setAdErro] = useState("");
@@ -343,7 +342,6 @@ export default function Account() {
           )}
         </aside>
       </main>
-      <RedirectToLogin />
     </>
   );
 }

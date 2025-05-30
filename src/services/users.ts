@@ -32,10 +32,8 @@ export async function getAlluserNames() {
       },
     });
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (err) {
-    console.log(err);
     return {
       data: [],
     };
@@ -173,10 +171,8 @@ export async function updateMyCredentials(dto: {
       body: JSON.stringify(dto),
     });
     const data = await response.json();
-    console.log(data)
     return data?.message == "updated" ? true : false;
   } catch (error) {
-    console.log(error)
     return false;
   }
 }

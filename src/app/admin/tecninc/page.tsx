@@ -17,7 +17,6 @@ import {
 import IUserAPI from "@/types/userAPI";
 import getAllSectors from "@/services/sector";
 import { ClipLoader } from "react-spinners";
-import RedirectToLogin from "@/services/redirect";
 export default function Tech() {
   const [users, setUsers] = useState<IUserAPI[]>([]);
   const [loader, setLoader] = useState(true);

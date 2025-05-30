@@ -20,7 +20,6 @@ export default async function Login(email: string, password: string) {
     localStorage.setItem("usertype", user.type);
     return { message: "Logado com sucesso" };
   } catch (error) {
-    console.log(error)
     return { message: "Erro ao fazer login" };
   }
 }

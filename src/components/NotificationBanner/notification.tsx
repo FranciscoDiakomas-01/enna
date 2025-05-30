@@ -4,15 +4,21 @@ import { Bell } from "lucide-react";
 import Link from "next/link";
 import './index.css'
 import { useEffect, useState } from "react";
+import { countNotification } from "@/services/notfications";
 
 export default function Notification({ to , click }: { to: string  , click () : void}) {
   const [noti, setNoti] = useState(0);
   useEffect(() => {
     const getNotification = async () => {
-      const newnotification = await 1;
+      const newnotification = await countNotification();
       setNoti(newnotification);
     };
+    const interval = setInterval(() => {
+      getNotification()
+    },1000)
     getNotification();
+
+    return () => clearInterval(interval);
   }, []);
   return (
     <Link

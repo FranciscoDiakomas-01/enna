@@ -2,6 +2,7 @@
 import "./globals.css";
 import Logo from "@/components/Logo";
 import Login from "@/services/login";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ClipLoader, SyncLoader } from "react-spinners";
 export default function Home() {
@@ -9,13 +10,24 @@ export default function Home() {
   const [sucess, setSucess] = useState("");
   const [loader, setLoader] = useState(true);
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter()
   useEffect(() => {}, [error, sucess]);
   useEffect(() => {
-    setTimeout(() => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userid");
+    const userType = localStorage.getItem("usertype");
+    if (token && userId && userType === "Admin") {
+      router.push("/admin");
+      return;
+    } else if (token && userId && userType === "Tecnic") {
+      router.push("/tecnic");
+      return;
+    } 
+    const timer = setTimeout(() => {
       setLoader(false);
     }, 4000);
-  }, []);
+    return () => clearTimeout(timer);
+  }, [router]);
 
   async function loginAction(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -106,7 +118,9 @@ export default function Home() {
                 {sucess}
               </p>
             )}
-            {loading && <ClipLoader  className="flex place-self-center" color="orange" />}
+            {loading && (
+              <ClipLoader className="flex place-self-center" color="orange" />
+            )}
           </form>
         </main>
       )}

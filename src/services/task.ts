@@ -70,6 +70,98 @@ export async function getAllTaskBySearch(page: string = "1" , search : string) {
 }
 
 
+
+// Tec
+export async function getAllTaskByUserId(page: string = "1") {
+  const token = String(localStorage.getItem("token"));
+  const userid = String(localStorage.getItem("userid"));
+  try {
+    const response = await fetch(serverpath + `task/user/${userid}?page=${+page}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    return {
+      data: [],
+      lastPage: 0,
+      total: 0,
+      page: 0,
+    };
+  }
+}
+export async function getAllTaskByUserStatus(page: string = "1", status: string) {
+  
+  const userid = String(localStorage.getItem("userid"));
+  const token = String(localStorage.getItem("token"));
+  try {
+    const response = await fetch(
+      serverpath + `task/status/${status}/${userid}?page=${+page}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    return {
+      data: [],
+      lastPage: 0,
+      total: 0,
+      page: 0,
+    };
+  }
+}
+
+export async function getAllTaskByUserIdSearch(page: string = "1", search: string) {
+  const token = String(localStorage.getItem("token"));
+  const userid = String(localStorage.getItem("userid"));
+  try {
+    const response = await fetch(
+      serverpath + `task/user/${userid}?page=${+page}&search=${search}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    return {
+      data: [],
+      lastPage: 0,
+      total: 0,
+      page: 0,
+    };
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export async function getTaskById(id : number) {
   const token = String(localStorage.getItem("token"));
   try {
@@ -121,10 +213,8 @@ export async function createTaskSave(dto: {
       body: JSON.stringify(dto),
     });
     const data = await response.json();
-    console.log(data);
     return data?.message == "tarefa craida com sucesso" ? true : false;
   } catch (error) {
-    console.log(error);
     return false;
   }
 }

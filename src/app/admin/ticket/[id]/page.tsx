@@ -8,7 +8,6 @@ import "aos/dist/aos.css";
 import AOS from "aos";
 import ITicket from "@/types/ticket";
 import { getAllTicktByID } from "@/services/tikect";
-import RedirectToLogin from "@/services/redirect";
 
 interface ITec {
   user: {
@@ -43,7 +42,6 @@ export default function TicketDetail() {
     async function getBydTask() {
       const data = await getAllTicktByID(id);
       setTask(data?.ticket);
-      console.log(data);
       setTec(data?.tasks);
     }
     getBydTask();

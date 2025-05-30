@@ -11,7 +11,6 @@ import {
   getAllTaskByStatus,
 } from "@/services/task";
 import { getAlluserNames } from "@/services/users";
-import RedirectToLogin from "@/services/redirect";
 export default function Tasks() {
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +30,6 @@ export default function Tasks() {
     async function getAllFunc() {
       const data = await getAlluserNames();
       setUsers(data?.data);
-      console.log(data);
     }
     getAllFunc();
   }, []);
@@ -74,7 +72,6 @@ export default function Tasks() {
     setLoading(true);
     async function get() {
       const data = await getAllTaskBySearch(String(page), search);
-      console.log(data);
       setTasks(data?.data);
       setPage(data?.page);
       setLastPage(data?.lastPage);

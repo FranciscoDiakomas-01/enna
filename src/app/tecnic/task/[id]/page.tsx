@@ -122,12 +122,12 @@ export default function TaskDetail() {
                 ? "Concluída"
                 : "Desconhecido"}
             </h1>
-            {task.ticketId && <p>Ticket : TCK-{task.ticketId}</p>}
+            {task?.ticketId && <p>Ticket : TCK-{task?.ticketId}</p>}
             <footer className="flex w-full lg:flex-row flex-col justify-between gap-3 items-center">
               <button
                 className=" w-full rounded-sm p-2 bg-red-500 text-white"
                 onClick={async () => {
-                  const id = task.id;
+                  const id = task?.id;
                   setAddLoading(true);
                   const deleted = await deleteTaskById(id);
                   if (deleted) {
@@ -148,7 +148,7 @@ export default function TaskDetail() {
                   }
                 }}
               >
-                Remover
+                Actualizar status
               </button>
               <button
                 className=" w-full rounded-sm p-2 bg-blue-500 text-white"

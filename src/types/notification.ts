@@ -3,6 +3,7 @@ type INotification = {
   read: boolean;
   text: string;
   deeplink?: string;
-  message: string,
-  type : "Task" | "Ticket" | "User" | "Other"
+  message: string;
+  type: "Task" | "Ticket" | "User" | "Other";
+  created : Date
 };

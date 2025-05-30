@@ -17,6 +17,7 @@ import BarAnimation from "@/components/charts/bars";
 import { useEffect, useState } from "react";
 import { SyncLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
+import getMyDashBoard from "@/services/dashboard";
 export default function Admin() {
   interface ITask {
     id: number;
@@ -26,40 +27,32 @@ export default function Admin() {
   const [load, setLoad] = useState(true);
   const [tasks, setTasks] = useState<ITask[]>([]);
   const router = useRouter();
+  const [ chart , setChart ] = useState<number[]>([])
   useEffect(() => {
     setLoad(true);
+    async function get() {
+      const data = await getMyDashBoard()
+      try {
+        const values = Object.values(data?.taskStatusChart) as number[];
+        const valuesOrdered = [
+          data?.taskStatusChart?.completed || 0,
+          data?.taskStatusChart?.pending || 0, 
+          data?.taskStatusChart?.working || 0,
+          data?.taskStatusChart?.cancelled || 0,
+        ];
+        setChart([...valuesOrdered]);
+        setTasks(data?.recentTasks);
+      } catch (error) {
+        
+      }
+    }
+    get()
+
     AOS.init({
       once: true,
       offset: 70,
       duration: 1000,
     });
-    setTasks([
-      {
-        id: 1,
-        title: "Revisar proposta de projeto",
-        status: "Pendente",
-      },
-      {
-        id: 2,
-        title: "Desenvolver tela de login",
-        status: "Em andamento",
-      },
-      {
-        id: 3,
-        title: "Testar integração com API",
-        status: "Concluída",
-      },
-      {
-        id: 4,
-        title: "Corrigir bugs do dashboard",
-        status: "Cancelada",
-      },
-      {
-        id: 5,
-        title: "Atualizar documentação técnica",
-        status: "Em andamento",
-      },
-    ]);
     setTimeout(() => {
       setLoad(false);
     }, 3000);
@@ -79,7 +72,7 @@ export default function Admin() {
               id="gradienr"
             >
               <h1 data-aos="fade-up" data-aos-delay="100" className="text-2xl">
-                Bem vindo ao sistema Francisco👋{" "}
+                Bem vindo ao sistema👋{" "}
               </h1>
               <h2
                 data-aos="fade-up"
@@ -117,7 +110,12 @@ export default function Admin() {
                   <p>Concluídas</p>
                 </div>
                 <span>
-                  <h1 className="text-3xl ">10</h1>
+                  <h1 className="text-3xl ">
+                    {Array.isArray(chart) &&
+                      chart.length > 2 &&
+                      chart &&
+                      chart[0]}
+                  </h1>
                 </span>
               </div>
               <div
@@ -132,7 +130,12 @@ export default function Admin() {
                   <p>Pendentes</p>
                 </div>
                 <span>
-                  <h1 className="text-3xl ">10</h1>
+                  <h1 className="text-3xl ">
+                    {Array.isArray(chart) &&
+                      chart.length > 2 &&
+                      chart &&
+                      chart[1]}
+                  </h1>
                 </span>
               </div>
               <div
@@ -147,7 +150,12 @@ export default function Admin() {
                   <p>Canceladas</p>
                 </div>
                 <span>
-                  <h1 className="text-3xl ">10</h1>
+                  <h1 className="text-3xl ">
+                    {Array.isArray(chart) &&
+                      chart.length > 2 &&
+                      chart &&
+                      chart[3]}
+                  </h1>
                 </span>
               </div>
               <div
@@ -162,7 +170,12 @@ export default function Admin() {
                   <p>Em progresso</p>
                 </div>
                 <span>
-                  <h1 className="text-3xl ">10</h1>
+                  <h1 className="text-3xl ">
+                    {Array.isArray(chart) &&
+                      chart.length > 2 &&
+                      chart &&
+                      chart[2]}
+                  </h1>
                 </span>
               </div>
             </span>
@@ -173,7 +186,9 @@ export default function Admin() {
             data-aos="zoom-in"
           >
             <div className="lg:w-[50%]  w-full">
-              <BarAnimation />
+              {Array.isArray(chart) && chart.length > 2 && (
+                <BarAnimation value={[...chart]} />
+              )}
             </div>
             {Array.isArray(tasks) && tasks.length > 0 && (
               <article
@@ -183,25 +198,26 @@ export default function Admin() {
                 <h1 data-aos="zoom-in" className="text-[17px]">
                   Últimos Registros
                 </h1>{" "}
-                {tasks.map((data, key) => (
-                  <span
-                    key={key}
-                    className="flex  items-center gap-4 border p-2 rounded-sm transition hover:bg-orange-400 hover:text-white  hover:border-orange-500"
-                  >
-                    <h1 className=" w-[270px]">
-                      {data.title?.slice(0, 20)} ...
-                    </h1>
-                    <p className="w-[100px]"> {data.status}</p>
-                    <button
-                      className="w-[100px] text-[12px] h-[30px] rounded-full border "
-                      onClick={() => {
-                        router.push(`/tecnic/task/${data.id}`);
-                      }}
+                {Array.isArray(tasks) &&
+                  tasks?.map((data, key) => (
+                    <span
+                      key={key}
+                      className="flex  items-center gap-4 border p-2 rounded-sm transition hover:bg-orange-400 hover:text-white  hover:border-orange-500"
                     >
-                      <ArrowRight size={13} />
-                    </button>
-                  </span>
-                ))}
+                      <h1 className=" w-[270px]">
+                        {data.title?.slice(0, 20)} ...
+                      </h1>
+                      <p className="w-[100px]"> {data.status}</p>
+                      <button
+                        className="w-[100px] text-[12px] h-[30px] rounded-full border "
+                        onClick={() => {
+                          router.push(`/tecnic/task/${data.id}`);
+                        }}
+                      >
+                        <ArrowRight size={13} />
+                      </button>
+                    </span>
+                  ))}
                 <div className="flex  flex-col lg:flex-row justify-between gap-1 lg:items-center ">
                   <button
                     className="w-[150px] text-[12px] h-[30px] rounded-full  mt-2 mb-7 bg-orange-400 text-white "
@@ -212,7 +228,7 @@ export default function Admin() {
                     Ver todas
                   </button>
                   <h1 data-aos="zoom-in" className="text-[17px] opacity-0">
-                    Últimos Registros
+                   
                   </h1>
                 </div>
               </article>

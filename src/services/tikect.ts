@@ -68,7 +68,6 @@ export async function getAllTicktByID(id: string) {
       },
     });
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     return { message: "Erro ao tentar acessar" };
